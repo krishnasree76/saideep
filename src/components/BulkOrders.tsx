@@ -1,3 +1,4 @@
+import bulkImage from '@/assets/potcurd-paneer.jpg';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, CheckCircle2 } from 'lucide-react';
 
@@ -78,10 +79,11 @@ const BulkOrders = () => {
             
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
               <img
-                src="/src/assets/potcurd-paneer.jpg"
-                alt="Premium Pot Curd and Paneer"
-                className="w-full h-[550px] object-cover transform transition-transform duration-1000 group-hover:scale-110"
-              />
+  src={bulkImage}
+  alt="Premium Pot Curd and Paneer"
+  className="w-full h-[550px] object-cover transform transition-transform duration-1000 group-hover:scale-110"
+/>
+
               {/* Elegant Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-8 left-8 text-white">
