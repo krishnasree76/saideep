@@ -4,7 +4,11 @@ import { Menu, X, ShoppingCart, Phone } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import logo from '@/assets/logo.png';
 
-const Header = () => {
+interface HeaderProps {
+  onCartClick: () => void;
+}
+
+const Header = ({ onCartClick }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { totalItems } = useCart();
 
@@ -20,6 +24,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 glass-card-elevated">
       <div className="container-custom">
         <div className="flex items-center justify-between h-20 px-4">
+          
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img src={logo} alt="Saideep Ecobites" className="h-14 w-14 rounded-full object-cover" />
@@ -32,11 +37,7 @@ const Header = () => {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-foreground/80 hover:text-primary font-medium transition-colors duration-300"
-              >
+              <a key={link.href} href={link.href} className="text-foreground/80 hover:text-primary font-medium transition-colors duration-300">
                 {link.label}
               </a>
             ))}
@@ -44,16 +45,14 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <a
-              href="tel:9701363812"
-              className="hidden sm:flex items-center gap-2 text-primary hover:text-secondary transition-colors"
-            >
+            <a href="tel:9701363812" className="hidden sm:flex items-center gap-2 text-primary hover:text-secondary transition-colors">
               <Phone className="w-4 h-4" />
               <span className="font-medium">9701363812</span>
             </a>
-            
-            <a
-              href="#cart"
+
+            {/* 🛒 CART BUTTON — FIXED */}
+            <button
+              onClick={onCartClick}
               className="relative p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
             >
               <ShoppingCart className="w-5 h-5 text-primary" />
@@ -62,19 +61,11 @@ const Header = () => {
                   {totalItems}
                 </span>
               )}
-            </a>
+            </button>
 
             {/* Mobile Menu Toggle */}
-            <button
-              className="md:hidden p-2"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? (
-                <X className="w-6 h-6 text-primary" />
-              ) : (
-                <Menu className="w-6 h-6 text-primary" />
-              )}
+            <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X className="w-6 h-6 text-primary" /> : <Menu className="w-6 h-6 text-primary" />}
             </button>
           </div>
         </div>
@@ -83,19 +74,11 @@ const Header = () => {
         {isMenuOpen && (
           <nav className="md:hidden py-4 px-4 border-t border-border/50 animate-fade-up">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="block py-3 text-foreground/80 hover:text-primary font-medium transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
+              <a key={link.href} href={link.href} className="block py-3 text-foreground/80 hover:text-primary font-medium" onClick={() => setIsMenuOpen(false)}>
                 {link.label}
               </a>
             ))}
-            <a
-              href="tel:9701363812"
-              className="flex items-center gap-2 py-3 text-primary font-medium"
-            >
+            <a href="tel:9701363812" className="flex items-center gap-2 py-3 text-primary font-medium">
               <Phone className="w-4 h-4" />
               <span>9701363812</span>
             </a>

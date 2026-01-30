@@ -16,8 +16,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       
+      {/* ✅ Pass cart opener to Header */}
+      <Header onCartClick={() => setIsCheckoutOpen(true)} />
+
       <main>
         <Hero />
         <ProductsSection />
@@ -27,18 +29,16 @@ const Index = () => {
           <div className="container-custom">
             <div className="flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16">
               
-              {/* Left Image (Rectangular) */}
               {/* Left Image (No Crop, Full Visible) */}
-<div className="flex-shrink-0 w-full md:w-1/2 flex justify-center">
-  <div className="rounded-2xl overflow-hidden shadow-2xl border border-primary/10 bg-white p-4">
-    <img
-      src={cartImage}
-      alt="Fresh Dairy Products"
-      className="w-full h-[320px] md:h-[380px] object-contain"
-    />
-  </div>
-</div>
-
+              <div className="flex-shrink-0 w-full md:w-1/2 flex justify-center">
+                <div className="rounded-2xl overflow-hidden shadow-2xl border border-primary/10 bg-white p-4 w-full">
+                  <img
+                    src={cartImage}
+                    alt="Fresh Dairy Products"
+                    className="w-full h-[260px] sm:h-[300px] md:h-[380px] object-contain"
+                  />
+                </div>
+              </div>
 
               {/* Right Text Content */}
               <div className="flex-1 text-center md:text-left max-w-2xl">
@@ -74,7 +74,12 @@ const Index = () => {
 
       <Footer />
       <FloatingWhatsApp />
-      <Checkout isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} />
+
+      {/* ✅ Cart Modal (works from Navbar + Button) */}
+      <Checkout
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+      />
     </div>
   );
 };
