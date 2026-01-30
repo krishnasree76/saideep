@@ -27,11 +27,21 @@ const Header = ({ onCartClick }: HeaderProps) => {
           
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="Saideep Ecobites" className="h-14 w-14 rounded-full object-cover" />
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-display font-bold text-primary">Saideep</h1>
-              <p className="text-sm font-medium text-secondary -mt-1">Ecobites</p>
-            </div>
+            <img
+  src={logo}
+  alt="Saideep Ecobites"
+  className="h-16 w-16 sm:h-18 sm:w-18 md:h-20 md:w-20 rounded-full object-cover"
+/>
+
+            <div className="leading-tight">
+  <h1 className="text-base sm:text-xl font-display font-bold text-primary">
+    Saideep
+  </h1>
+  <p className="text-xs sm:text-sm font-medium text-secondary -mt-1">
+    Ecobites
+  </p>
+</div>
+
           </Link>
 
           {/* Desktop Nav */}
