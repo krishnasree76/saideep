@@ -24,6 +24,8 @@ const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
     longitude: '',
   });
 
+  const hasTBD = items.some(item => item.price === 'TBD');
+
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
       toast.error('Geolocation is not supported by your browser');
@@ -77,7 +79,7 @@ const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
 🛒 Order Details:
 ${orderItems}
 
-💰 Total: ${totalPrice === 'TBD' ? 'TBD' : `₹${totalPrice}`}
+💰 Total: ${hasTBD ? 'TBD' : `₹${totalPrice}`}
 
 🏠 Delivery Address:
 ${formData.address}
@@ -126,24 +128,36 @@ Thank you!`;
                 <>
                   <div className="space-y-4 mb-6">
                     {items.map((item) => (
-                      <div key={`${item.id}-${item.variant}`} className="flex items-center gap-4 p-3 rounded-xl bg-muted/50">
-                        <img src={item.image} alt={item.name} className="w-16 h-16 rounded-lg object-cover" />
+                      <div key={`${item.id}-${item.variant}`} className="flex gap-3 p-3 rounded-xl bg-muted/50 items-center">
+                        
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-14 h-14 rounded-lg object-cover flex-shrink-0"
+                        />
+
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-foreground truncate">{item.name}</h4>
-                          <p className="text-sm text-muted-foreground">
+                          <h4 className="font-semibold text-foreground text-sm truncate">
+                            {item.name}
+                          </h4>
+                          <p className="text-xs text-muted-foreground">
                             {item.variant} • {item.price === 'TBD' ? 'TBD' : `₹${item.price}`}
                           </p>
                         </div>
-                        <div className="flex items-center gap-2">
+
+                        <div className="flex items-center gap-1">
                           <button onClick={() => updateQuantity(item.id, item.variant, item.quantity - 1)} className="p-1.5 rounded-md hover:bg-primary/10">
                             <Minus className="w-4 h-4" />
                           </button>
-                          <span className="w-6 text-center font-medium">{item.quantity}</span>
+                          <span className="w-5 text-center text-sm font-medium">
+                            {item.quantity}
+                          </span>
                           <button onClick={() => updateQuantity(item.id, item.variant, item.quantity + 1)} className="p-1.5 rounded-md hover:bg-primary/10">
                             <Plus className="w-4 h-4" />
                           </button>
                         </div>
-                        <button onClick={() => removeItem(item.id, item.variant)} className="p-2 rounded-md text-destructive hover:bg-destructive/10">
+
+                        <button onClick={() => removeItem(item.id, item.variant)} className="p-2 text-destructive hover:bg-destructive/10 rounded-md">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -152,8 +166,8 @@ Thank you!`;
 
                   <div className="flex items-center justify-between py-4 border-t border-border">
                     <span className="text-lg font-semibold text-foreground">Total</span>
-                    <span className="text-2xl font-bold text-primary">
-                      {totalPrice === 'TBD' ? 'TBD' : `₹${totalPrice}`}
+                    <span className="text-xl md:text-2xl font-bold text-primary">
+                      {hasTBD ? 'TBD' : `₹${totalPrice}`}
                     </span>
                   </div>
 
