@@ -44,7 +44,7 @@ const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
         setIsLocating(false);
       },
       () => {
-        toast.error('Unable to get your location. You can still place the order.');
+        toast.error('Unable to get your location. Please allow location access.');
         setIsLocating(false);
       },
       { enableHighAccuracy: true, timeout: 10000 }
@@ -57,6 +57,12 @@ const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
       return;
     }
 
+    // 🚨 LOCATION MANDATORY CHECK
+    if (!formData.latitude || !formData.longitude) {
+      toast.error('Live location is required to place the order');
+      return;
+    }
+
     const orderItems = items
       .map((item) => {
         if (item.price === 'TBD') {
@@ -66,10 +72,7 @@ const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
       })
       .join('\n');
 
-    const locationLink =
-      formData.latitude && formData.longitude
-        ? `https://www.google.com/maps/search/?api=1&query=${formData.latitude},${formData.longitude}`
-        : 'Location not shared';
+    const locationLink = `https://www.google.com/maps/search/?api=1&query=${formData.latitude},${formData.longitude}`;
 
     const message = `Hello Saideep Ecobites, I would like to place an order.
 
@@ -129,34 +132,18 @@ Thank you!`;
                   <div className="space-y-4 mb-6">
                     {items.map((item) => (
                       <div key={`${item.id}-${item.variant}`} className="flex gap-3 p-3 rounded-xl bg-muted/50 items-center">
-                        
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-14 h-14 rounded-lg object-cover flex-shrink-0"
-                        />
-
+                        <img src={item.image} alt={item.name} className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-foreground text-sm truncate">
-                            {item.name}
-                          </h4>
+                          <h4 className="font-semibold text-foreground text-sm truncate">{item.name}</h4>
                           <p className="text-xs text-muted-foreground">
                             {item.variant} • {item.price === 'TBD' ? 'TBD' : `₹${item.price}`}
                           </p>
                         </div>
-
                         <div className="flex items-center gap-1">
-                          <button onClick={() => updateQuantity(item.id, item.variant, item.quantity - 1)} className="p-1.5 rounded-md hover:bg-primary/10">
-                            <Minus className="w-4 h-4" />
-                          </button>
-                          <span className="w-5 text-center text-sm font-medium">
-                            {item.quantity}
-                          </span>
-                          <button onClick={() => updateQuantity(item.id, item.variant, item.quantity + 1)} className="p-1.5 rounded-md hover:bg-primary/10">
-                            <Plus className="w-4 h-4" />
-                          </button>
+                          <button onClick={() => updateQuantity(item.id, item.variant, item.quantity - 1)} className="p-1.5 rounded-md hover:bg-primary/10"><Minus className="w-4 h-4" /></button>
+                          <span className="w-5 text-center text-sm font-medium">{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, item.variant, item.quantity + 1)} className="p-1.5 rounded-md hover:bg-primary/10"><Plus className="w-4 h-4" /></button>
                         </div>
-
                         <button onClick={() => removeItem(item.id, item.variant)} className="p-2 text-destructive hover:bg-destructive/10 rounded-md">
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -186,7 +173,7 @@ Thank you!`;
 
               <Button type="button" variant="outline" onClick={handleGetLocation} disabled={isLocating} className="w-full">
                 {isLocating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <MapPin className="w-4 h-4 mr-2" />}
-                {formData.latitude ? '✓ Location Captured' : 'Share My Live Location'}
+                {formData.latitude ? '✓ Location Captured' : 'Share My Live Location *'}
               </Button>
 
               <div className="flex gap-3 pt-2">
