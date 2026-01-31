@@ -2,7 +2,7 @@ import { Phone, Mail, MapPin, Clock, Instagram, MessageCircle, ExternalLink } fr
 import { motion } from 'framer-motion';
 
 const Contact = () => {
-  const googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=Saideep+Ecobites+Jangareddygudem+Mahindra+Showroom";
+  const googleMapsUrl = "https://maps.app.goo.gl/kupEeM6hPjyrJ9pC9?g_st=aw";
 
   const containerVariants = {
     hidden: { opacity: 0 },

@@ -11,6 +11,8 @@ interface CheckoutProps {
   onClose: () => void;
 }
 
+const DELIVERY_CHARGE = 15;
+
 const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
   const { items, updateQuantity, removeItem, clearCart, totalPrice } = useCart();
   const [step, setStep] = useState<'cart' | 'details'>('cart');
@@ -25,6 +27,8 @@ const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
   });
 
   const hasTBD = items.some(item => item.price === 'TBD');
+  const finalTotal = hasTBD ? 'TBD' : (totalPrice as number) + DELIVERY_CHARGE;
+
 
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
@@ -57,7 +61,6 @@ const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
       return;
     }
 
-    // 🚨 LOCATION MANDATORY CHECK
     if (!formData.latitude || !formData.longitude) {
       toast.error('Live location is required to place the order');
       return;
@@ -82,7 +85,8 @@ const Checkout = ({ isOpen, onClose }: CheckoutProps) => {
 🛒 Order Details:
 ${orderItems}
 
-💰 Total: ${hasTBD ? 'TBD' : `₹${totalPrice}`}
+🚚 Delivery Charges: ₹${DELIVERY_CHARGE}
+💰 Grand Total: ${hasTBD ? 'TBD' : `₹${finalTotal}`}
 
 🏠 Delivery Address:
 ${formData.address}
@@ -151,14 +155,23 @@ Thank you!`;
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-between py-4 border-t border-border">
-                    <span className="text-lg font-semibold text-foreground">Total</span>
-                    <span className="text-xl md:text-2xl font-bold text-primary">
-                      {hasTBD ? 'TBD' : `₹${totalPrice}`}
-                    </span>
+                  {/* Totals */}
+                  <div className="space-y-2 border-t border-border pt-4">
+                    <div className="flex justify-between text-muted-foreground">
+                      <span>Items Total</span>
+                      <span>{hasTBD ? 'TBD' : `₹${totalPrice}`}</span>
+                    </div>
+                    <div className="flex justify-between text-muted-foreground">
+                      <span>Delivery Charges</span>
+                      <span>₹{DELIVERY_CHARGE}</span>
+                    </div>
+                    <div className="flex justify-between text-lg font-bold text-primary pt-2">
+                      <span>Grand Total</span>
+                      <span>{hasTBD ? 'TBD' : `₹${finalTotal}`}</span>
+                    </div>
                   </div>
 
-                  <Button onClick={() => setStep('details')} className="w-full btn-primary-gradient py-6 text-lg">
+                  <Button onClick={() => setStep('details')} className="w-full btn-primary-gradient py-6 text-lg mt-6">
                     Proceed to Checkout
                   </Button>
                 </>

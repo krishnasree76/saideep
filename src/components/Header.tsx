@@ -34,13 +34,14 @@ const Header = ({ onCartClick }: HeaderProps) => {
 />
 
             <div className="leading-tight">
-  <h1 className="text-base sm:text-xl font-display font-bold text-primary">
+  <h1 className="text-lg sm:text-2xl md:text-3xl font-display font-bold text-primary">
     Saideep
   </h1>
-  <p className="text-xs sm:text-sm font-medium text-secondary -mt-1">
-    Ecobites
+  <p className="text-sm sm:text-base md:text-lg font-medium text-secondary -mt-1">
+    ecobites
   </p>
 </div>
+
 
           </Link>
 

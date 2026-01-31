@@ -3,7 +3,7 @@ import logo from '@/assets/logo.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=Saideep+Ecobites+Jangareddygudem+Mahindra+Showroom";
+  const googleMapsUrl = "https://maps.app.goo.gl/kupEeM6hPjyrJ9pC9?g_st=aw";
 
   return (
     <footer className="bg-primary text-primary-foreground relative overflow-hidden">
